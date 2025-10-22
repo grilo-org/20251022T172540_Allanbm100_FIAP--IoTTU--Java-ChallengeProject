@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title th:text="#{motorcycle.list.title}">Lista de Motos</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h1 th:text="#{motorcycle.list.header}">Gerenciamento de Motos</h1>
+        <a th:href="@{/motorcycles/new}" class="btn btn-primary" th:text="#{motorcycle.list.button.new}">Nova Moto</a>
+    </div>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{motorcycle.list.table.header.id}">ID</th>
+                <th th:text="#{motorcycle.list.table.header.model}">Modelo</th>
+                <th th:text="#{motorcycle.list.table.header.licensePlate}">Placa</th>
+                <th th:text="#{motorcycle.list.table.header.status}">Status</th>
+                <th th:text="#{motorcycle.list.table.header.yard}">Pátio</th>
+                <th th:text="#{motorcycle.list.table.header.actions}">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="motorcycle : ${motorcycles}">
+                <td th:text="${motorcycle.id}"></td>
+                <td th:text="${motorcycle.model}"></td>
+                <td th:text="${motorcycle.licensePlate}"></td>
+                <td th:text="${motorcycle.status.description}"></td>
+                <td th:text="${motorcycle.yard.city}"></td>
+                <td>
+                    <a th:href="@{/motorcycles/edit/{id}(id=${motorcycle.id})}" class="btn btn-secondary" th:text="#{motorcycle.list.button.edit}">Editar</a>
+                    <form th:action="@{/motorcycles/{id}(id=${motorcycle.id})}" method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" class="btn btn-secondary" th:text="#{motorcycle.list.button.delete}" th:onclick="'return confirm(\'' + #{motorcycle.list.confirm.delete} + '\');'">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
